@@ -81,8 +81,8 @@ int main() {
 
         clock_t start = clock();
 
-        // BubbleSort(bigData, size);          // ← commented out
-        EnhancedBubbleSort(bigData, size);    // ← enhanced version used
+        // BubbleSort(bigData, size);          //  commented out
+        EnhancedBubbleSort(bigData, size);    //  enhanced version used
 
         clock_t end = clock();
         elapsedSeconds = double(end - start) / CLOCKS_PER_SEC;

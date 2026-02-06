@@ -69,8 +69,8 @@ int main() {
 
         clock_t start = clock();
 
-        // SelectionSort(bigData, size);  // ← commented out as requested
-        BubbleSort(bigData, size);        // ← bubble sort used instead
+        // SelectionSort(bigData, size);  //  commented out as requested
+        BubbleSort(bigData, size);        //  bubble sort used instead
 
         clock_t end = clock();
 
