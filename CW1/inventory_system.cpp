@@ -74,32 +74,32 @@ public:
     // displays all items with a numbered list, then asks the user to pick one to remove
     void promptRemoveItem() {
         if (inventory.empty()) { // checks whether the inventory vector contains any items
-            cout << "\nInventory is empty. Nothing to remove.\n"; // notifies the user if there is nothing to remove
-            return; // exits early since removal is not possible
+            cout << "\nInventory is empty. Nothing to remove.\n";
+            return;
         }
-        cout << "\n--- SELECT ITEM TO REMOVE ---\n"; // prints the section header
+        cout << "\n--- SELECT ITEM TO REMOVE ---\n";
         for (int i = 0; i < (int)inventory.size(); ++i) { // iterates over each item by index
-            cout << "  " << (i + 1) << ". " << inventory[i].name << "\n"; // displays 1-based number and item name
+            cout << "  " << (i + 1) << ". " << inventory[i].name << "\n"; 
         }
         int choice = readInt("Enter number of item to remove: "); // reads the user's numeric selection
         if (choice < 1 || choice > (int)inventory.size()) { // validates that the number is within the valid range
-            cout << "[LOG] Invalid selection.\n"; // informs the user the number was out of range
-            return; // exits without modifying the inventory
+            cout << "[LOG] Invalid selection.\n";
+            return;
         }
         auto it = inventory.begin() + (choice - 1); //  calculates iterator to the chosen item (converts to 0-based)
-        cout << "[LOG] Item removed: " << it->name << "\n"; // confirms which item is being removed
+        cout << "[LOG] Item removed: " << it->name << "\n"; 
         inventory.erase(it); // removes the element at that iterator position from the vector
     }
 
     // displays all items in the inventory (used for the Show Inventory menu option)
     void showInventory() {
-        if (inventory.empty()) { // checks whether the inventory vector contains any items
-            cout << "\nInventory is empty.\n"; // notifies the user if there is nothing to show
-            return; // exits early since there is nothing to display
+        if (inventory.empty()) {    // checks whether the inventory vector contains any items
+            cout << "\nInventory is empty.\n";
+            return;
         }
-        cout << "\n--- INVENTORY ---\n"; // prints the section header
+        cout << "\n--- INVENTORY ---\n";
         for (int i = 0; i < (int)inventory.size(); ++i) { // iterates over each item by index
-            cout << "  " << (i + 1) << ". " << inventory[i].name << "\n"; // displays 1-based number and name
+            cout << "  " << (i + 1) << ". " << inventory[i].name << "\n";
         }
     }
 
@@ -108,13 +108,13 @@ public:
         Quest q(name, reward, urgency); // constructs a Quest object with the given values
         activeQuests.push_back(q);      // appends the quest to the end of the doubly linked list
         urgentQuests.push(q);           // inserts the quest into the max-heap (reorders by urgency automatically)
-        cout << "[LOG] Quest added: " << name << "\n"; // confirms the addition to the user
+        cout << "[LOG] Quest added: " << name << "\n";
     }
 
     // rebuilds the priority queue from the current state of activeQuests
     // necessary because priority_queue does not support direct deletion of arbitrary elements
     void rebuildQueue() {
-        priority_queue<Quest> newQueue; // creates a fresh empty priority queue
+        priority_queue<Quest> newQueue;    // creates a fresh empty priority queue
         for (const auto& q : activeQuests) { // iterates over every quest still in the linked list
             newQueue.push(q); // re-inserts each quest into the new heap, restoring correct order
         }
@@ -123,21 +123,21 @@ public:
 
     // displays all active quests with a numbered list, then asks the user to pick one to complete
     void promptCompleteQuest() {
-        if (activeQuests.empty()) { // checks whether the linked list has any quests
-            cout << "\nNo active quests to complete.\n"; // notifies the user if the list is empty
-            return; // exits early since there is nothing to complete
+        if (activeQuests.empty()) {    // checks whether the linked list has any quests
+            cout << "\nNo active quests to complete.\n";
+            return;
         }
-        cout << "\n--- SELECT QUEST TO COMPLETE ---\n"; // prints the section header
-        int i = 1; // counter used to display 1-based numbering alongside each quest
-        for (const auto& q : activeQuests) { // iterates over each quest node in the linked list
+        cout << "\n--- SELECT QUEST TO COMPLETE ---\n";
+        int i = 1;    // counter used to display 1-based numbering alongside each quest
+        for (const auto& q : activeQuests) {    // iterates over each quest node in the linked list
             cout << "  " << i++ << ". " << q.name
                  << " | Reward: " << q.reward
-                 << " | Urgency: " << q.urgency << "\n"; // displays the quest number and its details
+                 << " | Urgency: " << q.urgency << "\n";
         }
         int choice = readInt("Enter number of quest to complete: "); // reads the user's numeric selection
-        if (choice < 1 || choice > (int)activeQuests.size()) { // validates the selection is within range
-            cout << "[LOG] Invalid selection.\n"; // informs the user the number was out of range
-            return; // exits without modifying the quest list
+        if (choice < 1 || choice > (int)activeQuests.size()) {    // validates the selection is within range
+            cout << "[LOG] Invalid selection.\n";
+            return;
         }
         auto it = activeQuests.begin(); // gets an iterator pointing to the first quest in the list
         advance(it, choice - 1);        // advances the iterator to the chosen quest (converts to 0-based)
@@ -148,29 +148,29 @@ public:
 
     // displays all active quests (used for the Show Quests menu option)
     void showQuests() {
-        if (activeQuests.empty()) { // checks whether the linked list has any quests
-            cout << "\nNo active quests.\n"; // notifies the user if the list is empty
-            return; // exits early since there is nothing to display
+        if (activeQuests.empty()) {    // checks whether the linked list has any quests
+            cout << "\nNo active quests.\n";
+            return;
         }
         cout << "\n--- ACTIVE QUESTS ---\n"; // prints the section header
         int i = 1; // counter for 1-based numbering
         for (const auto& q : activeQuests) { // iterates over each quest node in the linked list
             cout << "  " << i++ << ". " << q.name
                  << " | Reward: " << q.reward
-                 << " | Urgency: " << q.urgency << "\n"; // displays each quest's details on one line
+                 << " | Urgency: " << q.urgency << "\n";
         }
     }
 
     // displays the highest-urgency quest from the priority queue without removing it
     void showTopQuest() {
-        if (urgentQuests.empty()) { // checks whether the priority queue is empty
-            cout << "\nNo quests available.\n"; // notifies the user if there is nothing to show
-            return; // exits early
+        if (urgentQuests.empty()) {    // checks whether the priority queue is empty
+            cout << "\nNo quests available.\n";
+            return;
         }
-        const Quest& q = urgentQuests.top(); // peeks at the root of the max-heap (highest urgency) in O(1)
+        const Quest& q = urgentQuests.top();    // peeks at the root of the max-heap (highest urgency) in O(1)
         cout << "\nTop Priority Quest: " << q.name
              << " (Urgency: " << q.urgency
-             << ", Reward: " << q.reward << ")\n"; // displays the top quest's details
+             << ", Reward: " << q.reward << ")\n";
     }
 };
 
@@ -238,9 +238,9 @@ int main() {
                 break;
 
             case 2: {
-                int id = getIntInput("Enter item ID: ");         // reads a numeric ID for the new item
-                string name = getStringInput("Enter item name: "); // reads the item's name (spaces allowed)
-                player.addItem(id, name); // adds the new item to the inventory vector
+                int id = getIntInput("Enter item ID: ");
+                string name = getStringInput("Enter item name: ");
+                player.addItem(id, name);    // adds the new item to the inventory vector
                 break;
             }
 
@@ -249,37 +249,37 @@ int main() {
                 break;
 
             case 4:
-                player.showQuests(); // displays all active quests from the linked list
+                player.showQuests();    // displays all active quests from the linked list
                 break;
 
             case 5: {
                 string name    = getStringInput("Quest name: ");     // reads the quest title
                 int reward     = getIntInput("Reward: ");            // reads the reward value
                 int urgency    = getIntInput("Urgency (1-10): ");    // reads the urgency/priority level
-                if (urgency < 1 || urgency > 10) { // warns if urgency is outside the expected range
+                if (urgency < 1 || urgency > 10) {    // warns if urgency is outside the expected range
                     cout << "Warning: Urgency is outside 1-10 range, but quest will still be added.\n";
                 }
-                player.addQuest(name, reward, urgency); // adds the quest to both the list and the heap
+                player.addQuest(name, reward, urgency);    // adds the quest to both the list and the heap
                 break;
             }
 
             case 6:
-                player.promptCompleteQuest(); // lists quests with numbers; user picks which to complete
+                player.promptCompleteQuest();    // lists quests with number - user picks which to complete
                 break;
 
             case 7:
-                player.showTopQuest(); // peeks at the highest-urgency quest in the priority queue
+                player.showTopQuest();    // returns the highest-urgency quest from the priority queue
                 break;
 
             case 0:
-                cout << "Exiting program...\n"; // farewell message before the loop exits
+                cout << "Exiting program...\n";
                 break;
 
             default:
                 cout << "Invalid option. Please choose 0-7.\n"; // handles any number outside the valid range
         }
 
-    } while (choice != 0); // continues looping until the user selects Exit (0)
+    } while (choice != 0);    // continues looping until the user selects Exit (0)
 
     return EXIT_SUCCESS;
 }
